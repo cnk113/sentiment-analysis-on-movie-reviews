@@ -7,11 +7,24 @@ from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
 from sklearn.pipeline import Pipeline
 from sklearn import metrics
 
+def clean_text(text):
+    import string
+    translator = str.maketrans('','', string.punctuation)
+    return text.translate(translator)
+    
 def main():
     df = pd.read_csv('train.csv')
+    
+    print(df.head(10))
+    
+    df['Phrase'] = df['Phrase'].apply(clean_text)
+    
+    print(df.head(10))
+    
     x = df['Phrase'] # Features
     y = df['Sentiment'] # Labels
     xTrain, xTest, yTrain, yTest = train_test_split(x, y, test_size=0.3) # 70% training and 30% test
+       
 
     clf = Pipeline([
         ('vect', CountVectorizer()),
