@@ -3,7 +3,8 @@
 import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
-from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
+from sklearn.pipeline import Pipeline
 from sklearn import metrics
 
 def main():
@@ -11,10 +12,14 @@ def main():
     x = df['Phrase'] # Features
     y = df['Sentiment'] # Labels
     xTrain, xTest, yTrain, yTest = train_test_split(x, y, test_size=0.3) # 70% training and 30% test
-    vec = TfidfVectorizer()
-    xTrainVec = vec.fit_transform(xTrain)
-    clf = RandomForestClassifier()
-    clf.fit(xTrainVec,yTrain) # Build a forest of trees from the training set (x, y).
+
+    clf = Pipeline([
+        ('vect', CountVectorizer()),
+        ('tfidf', TfidfTransformer()),
+        ('clf', RandomForestClassifier())
+    ])
+    clf.fit(xTrain, yTrain) # Build a forest of trees from the training set (x, y).
+    
     yPred = clf.predict(xTest)
     print("Accuracy:",metrics.accuracy_score(yTest, yPred))
 
