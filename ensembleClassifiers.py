@@ -48,11 +48,13 @@ def main():
         f.write(str(item) + ' \n')
     # print(tf_vec.vocabulary_)'''
     
+    sum = 0;
+    
     for i in range(10):
         xTrain, xTest, yTrain, yTest = train_test_split(x, y, test_size=0.3) # 70% training and 30% test
     
         clf = Pipeline([
-                ('tfidf', TfidfVectorizer(tokenizer=LemmaTokenizer(), max_df = 0.55, ngram_range=(1,2), stop_words=None)),
+                ('tfidf', TfidfVectorizer(tokenizer=LemmaTokenizer(), min_df = 2, ngram_range=(1,2), stop_words=None)),
                 ('clf', LinearSVC())
         ])
     
@@ -60,6 +62,8 @@ def main():
     
         yPred = clf.predict(xTest)
         print("Accuracy:",metrics.accuracy_score(yTest, yPred))
+        sum += metrics.accuracy_score(yTest, yPred)
+        print("Average Accuracy:", sum/(i+1))
 
 if __name__ == "__main__":
     main()
