@@ -8,6 +8,8 @@ from joblib import load
 from nltk import word_tokenize
 from nltk.stem import WordNetLemmatizer
 
+import csv
+
 class LemmaTokenizer(object):
     def __init__(self):
         self.wnl = WordNetLemmatizer()
@@ -23,14 +25,18 @@ def remove_punctuations(text):
     return text
 
 def main():
-    df = pd.read_csv('train.csv')
+    df = pd.read_csv('testset_1.csv')
+    xid = df['PhraseId']
     x = df['Phrase'].apply(remove_punctuations) # Features
-    y = df['Sentiment'] # Labels
     
     clf = load('model.joblib')
     
     yPred = clf.predict(x)
-    print("Accuracy:", metrics.accuracy_score(y, yPred))
+    with open('prediction.csv', mode='w', newline='') as predFile:
+        predWriter = csv.writer(predFile, delimiter=',')
+        predWriter.writerow(['PhraseId', 'Sentiment'])
+        for i in range(len(xid)):
+            predWriter.writerow([xid[i], yPred[i]])
 
 if __name__ == "__main__":
     main()
