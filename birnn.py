@@ -7,7 +7,6 @@ Original file is located at
     https://colab.research.google.com/drive/1XBmicT2O8KSJxn2ia83j8TJHlUu-_v6q
 """
 
-!pip3 install -q keras
 
 
 
