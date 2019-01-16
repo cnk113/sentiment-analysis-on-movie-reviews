@@ -15,10 +15,10 @@ Usage: python testModel.py # uses 'train.csv' if no file specified
 
 ## birnn.py
 ---
-Uses bidirectional RNN with both recurrent and normal dropout.__
-Uses Nesterov's adaptive momentum.__
-Train time with current parameters on a Google TPU ~90 minutes.__
-Achieves ~65% accuracy, but model diverged.__
+Uses bidirectional RNN with both recurrent and normal dropout.<br />
+Uses Nesterov's adaptive momentum.<br />
+Train time with current parameters on a Google TPU ~90 minutes.<br />
+Achieves ~65% accuracy, but model diverged.<br />
 Interesting problem due to either too high of a learning rate or the categorical cross entropy cost function
 
 ## model.joblib
